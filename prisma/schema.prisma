@@ -1,0 +1,60 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum PlaybookStatus {
+  DRAFT
+  PUBLISHED
+}
+
+model Playbook {
+  id               String         @id @default(cuid())
+  slug             String         @unique
+  title            String
+  problem          String
+  bodyMd           String
+  inputsJson       Json?
+  outputContractMd String?
+  failureModesMd   String?
+  testedWithJson   Json?
+  status           PlaybookStatus @default(DRAFT)
+  publishedAt      DateTime?
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  tags             PlaybookTag[]
+
+  @@index([status, publishedAt])
+}
+
+model Tag {
+  id        String       @id @default(cuid())
+  name      String
+  slug      String       @unique
+  createdAt DateTime     @default(now())
+
+  playbooks PlaybookTag[]
+
+  @@index([name])
+}
+
+model PlaybookTag {
+  playbookId String
+  tagId      String
+
+  playbook   Playbook @relation(fields: [playbookId], references: [id], onDelete: Cascade)
+  tag        Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([playbookId, tagId])
+  @@index([tagId])
+}
