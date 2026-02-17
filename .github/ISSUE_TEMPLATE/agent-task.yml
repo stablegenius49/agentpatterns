@@ -1,0 +1,73 @@
+name: Agent Task Contract
+description: Structured task contract for gh-aw + Vibe Kanban execution
+labels: ["agent:triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Fill this template so agents can execute reliably. Keep acceptance criteria testable.
+
+  - type: input
+    id: goal
+    attributes:
+      label: Goal
+      description: What outcome do you want?
+      placeholder: Ship X capability for Y user
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance Criteria
+      description: Bullet list of verifiable completion criteria
+      placeholder: |
+        - [ ] Criterion 1
+        - [ ] Criterion 2
+    validations:
+      required: true
+
+  - type: textarea
+    id: non_goals
+    attributes:
+      label: Non-goals
+      description: What should NOT be done in this task
+      placeholder: No redesign, no infra migration
+
+  - type: textarea
+    id: risks
+    attributes:
+      label: Risks / Constraints
+      description: Security, compliance, budget, dependency constraints
+
+  - type: textarea
+    id: tests
+    attributes:
+      label: Test Expectations
+      description: Required tests / verification evidence
+      placeholder: Unit tests + manual QA steps
+
+  - type: textarea
+    id: docs
+    attributes:
+      label: Docs Impact
+      description: Which docs must change (if any)
+
+  - type: dropdown
+    id: effort
+    attributes:
+      label: Effort
+      options:
+        - S
+        - M
+        - L
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      options:
+        - P0
+        - P1
+        - P2
+        - P3
